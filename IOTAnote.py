@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 import random
 from subprocess import call
-import iota
 import os, sys
 # External dependencies:
+import iota
 import pyqrcode
 
 printerName = 'star'
 
 def createQR(char, font, fontSize, Hpos, Vpos, lineSpacing, charSpacing, data):
-    "Creates a text based QR code. All 8 parameters are required."
+    "Creates Postscript code for a text based QR code. All 8 parameters are required."
     qrScript = ""
     qrObj = pyqrcode.create(data)
     qrText = (qrObj.text())
@@ -60,13 +60,13 @@ for i in range(spacing-(amountChars/2)):
 
 
 # For the seed, we want random length words, but exactly 27 characters on each of the 3 lines. Medium length words are preferred over
-# short and long words, so they appear several times in the list of available wordLengths.
+# short and long words, so they appear several times in the list of available word lengths.
 wordLengths = [3, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 8, 9]
 wordLengthArray=[]
 wordsPerRow = [1, 1, 1]
 for rowNumber in range(0,3):
     row=[11] # The first value is always 11 to begin with. If the row gets more than 27 chars, the excess will be substracted from this.
-             # Words from this list and the 10-letter one will only be used if the sum of a row is 27 or 28 characters.
+             # Words from this list and the 10-letter one will only be used if the sum of a row is 27 or 28 characters initially.
     while sum(row) < 27:
         row.append(random.choice(wordLengths))
         wordLengthArray.append(row[-1])
@@ -79,10 +79,10 @@ if sum(wordLengthArray) is not 81:
 # Pick words from the lists and add them to the PS:
 for i in range(0, len(wordLengthArray)):
     wordLength = str(wordLengthArray[i])
-    random_lines = random.choice(open(IOTAnotePath+'/Wordlists/'+wordLength+'letterwords.txt').readlines()).rstrip()
-    seed += random_lines
-    thefirst = (random_lines[0]).rstrip()
-    therest = (random_lines[1:wordLengthArray[i]]).rstrip()
+    randomWord = random.choice(open(IOTAnotePath+'/Wordlists/'+wordLength+'letterwords.txt').readlines()).rstrip()
+    seed += randomWord
+    thefirst = (randomWord[0]).rstrip()
+    therest = (randomWord[1:wordLengthArray[i]]).rstrip()
     script += fontbig
     script += beforetype+thefirst+aftertype
     script += fontsmall
@@ -109,8 +109,8 @@ api = iota.Iota('http://null', seed)
 response = (api.get_new_addresses(index=0, count=1))
 addr1 = (response['addresses'][0])
 addrWithChecksum = (addr1 + (iota.Address(addr1)._generate_checksum()[0:9]))
-AmountIota = int(float(amountMiota) * 1000000) # Iota.link doesn't like decimals, so we convert it to an int
-iotaLink = 'https://iota.link/'+str(addrWithChecksum)+'/'+str(AmountIota)+'i'
+amountIota = int(float(amountMiota) * 1000000) # Iota.link doesn't like decimals, so we convert it to an int
+iotaLink = 'https://iota.link/'+str(addrWithChecksum)+'/'+str(amountIota)+'i' # Not yet implemented in the official wallet, but I hope it'll be.
 addrScript = '%!PS-Adobe-3.0\n<< /PageSize [595 842] >> setpagedevice\n/mm {360 mul 127 div} def\n'
 addrScript += '/Courier-Bold\n24 selectfont\n5 290 mm moveto\n(To give the note value, send an amount of) show\n'
 addrScript += '5 280 mm moveto\n('+amountMiota+'Mi to this address:) show\n'
@@ -130,7 +130,7 @@ PSfile = open(IOTAnotePath+'/Rendered/Address.ps', 'w')
 PSfile.write(addrScript)
 PSfile.close()
 
-if noError: # The error handling is admittedly mediocre, I'll have to work on that
+if noError: # The error handling is admittedly lacking, I'll have to work on that
     print "Printing...\n"
     call(['lpr -P ' + printerName + ' ' + IOTAnotePath + '/Rendered/Address.ps'], shell=True)
     call(['lpr -P ' + printerName + ' ' + IOTAnotePath + '/Rendered/RenderedImage.ps'], shell=True)
@@ -142,13 +142,3 @@ else:
 #thefile = open(IOTAnotePath+'/Rendered/RenderedImage.ps', 'w')
 #thefile.write('nada')
 #thefile.close()
-
-
-
-
-# Function definition is here
-def printinfo( name, age ):
-   "This prints a passed info into this function"
-   print "Name: ", name
-   print "Age ", age
-   return;
