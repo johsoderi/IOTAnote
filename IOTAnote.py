@@ -21,7 +21,7 @@ def createQR(char, font, fontSize, Hpos, Vpos, lineSpacing, charSpacing, data):
         Vpos -= lineSpacing
     return qrScript
 
-print '\n\n           IOTAnote\n\n  Iota Paper Wallet Generator\n  by fakearchitect - oct 2017\n'
+print '\n\n           IOTAnote\n\n  Iota Paper Wallet Generator\n  by johsoderi - oct 2017\n'
 print '\n-------------------------------\nAlfa version - Use at own risk!\n-------------------------------\n\n\n'
 amountMiota = raw_input('      Enter amount in Mi\n\n    (0.000001-99999999999)\n\n>')
 print "\nRendering image...\n"
