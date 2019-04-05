@@ -10,3 +10,5 @@ I am a novice in both Python, Postscript and crypto-dev.
 Dependencies:
 pyota,
 pyqrcode
+
+![](/Rendered/RenderedImage.ps)
