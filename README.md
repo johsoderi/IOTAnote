@@ -11,4 +11,4 @@ Dependencies:
 pyota,
 pyqrcode
 
-![](/Rendered/RenderedImage.ps)
+![](/example.png)
