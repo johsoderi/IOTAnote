@@ -1,4 +1,7 @@
 # IOTAnote
+
+## This project has moved to [https://gitlab.com/johsoderi/iotatm](https://gitlab.com/johsoderi/iotatm)
+
 A Python Paper Wallet Generator for IOTA
 
 Tested on macOS 10.12.6 with Python 2.7.10 and a Star TSP100 receipt printer using CUPS.
